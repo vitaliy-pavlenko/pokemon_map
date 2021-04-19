@@ -3,18 +3,22 @@ from django.db import models
 
 class Pokemon(models.Model):
     title = models.CharField(verbose_name='Название', max_length=200)
-    image = models.ImageField(verbose_name='Изображение', null=True, blank=True)
-    description = models.TextField(verbose_name='Описание', default='')
-    title_en = models.CharField(verbose_name='Название EN', max_length=200, default='')
-    title_jp = models.CharField(verbose_name='Название JP', max_length=200, default='')
-    previous_evolution = models.ForeignKey('self', on_delete=models.SET_NULL, verbose_name='Эволюция', null=True)
+    image = models.ImageField(verbose_name='Изображение')
+    description = models.TextField(verbose_name='Описание', default='', blank=True)
+    title_en = models.CharField(verbose_name='Название EN', max_length=200, default='', blank=True)
+    title_jp = models.CharField(verbose_name='Название JP', max_length=200, default='', blank=True)
+    previous_evolution = models.ForeignKey('self',
+                                           on_delete=models.SET_NULL,
+                                           verbose_name='Эволюция',
+                                           null=True,
+                                           blank=True)
 
     def __str__(self):
         return self.title
 
 
 class PokemonEntity(models.Model):
-    pokemon = models.ForeignKey(Pokemon, on_delete=models.CASCADE, verbose_name='Покемон', null=True)
+    pokemon = models.ForeignKey(Pokemon, on_delete=models.CASCADE, verbose_name='Покемон')
     lat = models.FloatField(verbose_name='Широта',)
     lon = models.FloatField(verbose_name='Долгота',)
     appeared_at = models.DateTimeField(verbose_name='Появился в', null=True, blank=True)
